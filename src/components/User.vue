@@ -9,9 +9,10 @@
       >
         <b-form-input
           id="input-1"
-          v-model="form.name"
+          v-model="user.nombre"
           placeholder="Enter name"
           required
+          value="qq"
         ></b-form-input>
       </b-form-group>
 
@@ -23,7 +24,7 @@
       >
         <b-form-input
           id="input-2"
-          v-model="form.phone"
+          v-model="user.telefono"
           type="number"
           placeholder="Enter phone number"
           required
@@ -38,7 +39,7 @@
       >
         <b-form-input
           id="input-3"
-          v-model="form.email"
+          v-model="user.correo"
           type="email"
           placeholder="Enter email"
           required
@@ -53,13 +54,14 @@
       >
         <b-form-input
           id="input-4"
-          v-model="form.birth"
+          v-model="user.fechaNacimiento"
           placeholder="Enter name"
           required
         ></b-form-input>
       </b-form-group>
 
       <b-button type="submit" variant="primary">Update</b-button>
+      <b-button v-on:click="borrar" variant="danger">Delete</b-button>
     </b-form>
   </div>
 </template>
@@ -70,17 +72,12 @@ export default {
   name: "User",
   data() {
     return {
-      user: null,
+      user: {},
       id: this.$route.params.id,
-      form: {
-        name: "",
-        email: "",
-        phone: null,
-        birth: "",
-      },
       show: true,
     };
   },
+
   created: function () {
     const config = {
       headers: {
@@ -96,7 +93,30 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      alert(JSON.stringify(this.form));
+      const config = {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUwLCJpYXQiOjE2NDA4NTgwNzIsImV4cCI6MTY0MDg2NTI3Mn0.Y3nEeI1bKOdUGuIxc7AYYlNQ8mXzks0cZ6pJUDabFNA`,
+        },
+      };
+      axios
+        .put("https://examen.avirato.com/client/put", this.user, config)
+        .then((result) => {
+          this.$router.replace("/");
+          console.log(result.data);
+        });
+    },
+    borrar() {
+      const config = {
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUwLCJpYXQiOjE2NDA4NTgwNzIsImV4cCI6MTY0MDg2NTI3Mn0.Y3nEeI1bKOdUGuIxc7AYYlNQ8mXzks0cZ6pJUDabFNA`,
+        },
+      };
+      axios
+        .delete("https://examen.avirato.com/client/delete/" + this.id, config)
+        .then((result) => {
+          this.$router.replace("/");
+          console.log(result.data);
+        });
     },
   },
 };

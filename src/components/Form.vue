@@ -91,7 +91,8 @@ export default {
       axios
         .post("https://examen.avirato.com/client/post", this.form, config)
         .then((result) => {
-          alert(result);
+          this.$router.replace("/");
+          console.log(result.data);
         });
     },
     onReset(event) {
