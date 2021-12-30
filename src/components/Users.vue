@@ -6,16 +6,18 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Name</th>
+          <th scope="col">Phone</th>
           <th scope="col">Email</th>
-          <th scope="col">City</th>
+          <th scope="col">Birth date</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="user in users" v-bind:key="user.id">
           <th scope="row">{{ user.id }}</th>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.address.city }}</td>
+          <td>{{ user.nombre }}</td>
+          <td>{{ user.telefono }}</td>
+          <td>{{ user.correo }}</td>
+          <td>{{ user.fechaNacimiento }}</td>
         </tr>
       </tbody>
     </table>
@@ -32,7 +34,12 @@ export default {
     };
   },
   created: function () {
-    axios.get("https://jsonplaceholder.typicode.com/users").then((res) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUwLCJpYXQiOjE2NDA4NTgwNzIsImV4cCI6MTY0MDg2NTI3Mn0.Y3nEeI1bKOdUGuIxc7AYYlNQ8mXzks0cZ6pJUDabFNA`,
+      },
+    };
+    axios.get("https://examen.avirato.com/client/get", config).then((res) => {
       this.users = res.data;
     });
   },
