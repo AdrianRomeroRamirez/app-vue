@@ -1,14 +1,14 @@
 <template>
-  <Form />
+  <User />
 </template>
 
 <script>
-import Form from "@/components/Form.vue";
+import User from "@/components/User.vue";
 
 export default {
   name: "Home",
   components: {
-    Form,
+    User,
   },
 };
 </script>

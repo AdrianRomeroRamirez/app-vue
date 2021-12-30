@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="m-5">
+    <b-form @submit="onSubmit" v-if="show" class="m-5">
       <b-form-group
         id="input-group-1"
         label="Your Name:"
@@ -9,7 +9,7 @@
       >
         <b-form-input
           id="input-1"
-          v-model="form.nombre"
+          v-model="form.name"
           placeholder="Enter name"
           required
         ></b-form-input>
@@ -23,7 +23,7 @@
       >
         <b-form-input
           id="input-2"
-          v-model="form.telefono"
+          v-model="form.phone"
           type="number"
           placeholder="Enter phone number"
           required
@@ -38,7 +38,7 @@
       >
         <b-form-input
           id="input-3"
-          v-model="form.correo"
+          v-model="form.email"
           type="email"
           placeholder="Enter email"
           required
@@ -53,14 +53,13 @@
       >
         <b-form-input
           id="input-4"
-          v-model="form.fechaNacimiento"
-          placeholder="Enter birth date"
+          v-model="form.birth"
+          placeholder="Enter name"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="submit" variant="primary">Update</b-button>
     </b-form>
   </div>
 </template>
@@ -68,45 +67,37 @@
 <script>
 import axios from "axios";
 export default {
-  name: "Form",
+  name: "User",
   data() {
     return {
+      user: null,
+      id: this.$route.params.id,
       form: {
-        nombre: "",
-        telefono: "",
-        correo: null,
-        fechaNacimiento: "",
+        name: "",
+        email: "",
+        phone: null,
+        birth: "",
       },
       show: true,
     };
   },
+  created: function () {
+    const config = {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUwLCJpYXQiOjE2NDA4NTgwNzIsImV4cCI6MTY0MDg2NTI3Mn0.Y3nEeI1bKOdUGuIxc7AYYlNQ8mXzks0cZ6pJUDabFNA`,
+      },
+    };
+    axios
+      .get("https://examen.avirato.com/client/get/one/" + this.id, config)
+      .then((res) => {
+        this.user = res.data;
+      });
+  },
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      const config = {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUwLCJpYXQiOjE2NDA4NTgwNzIsImV4cCI6MTY0MDg2NTI3Mn0.Y3nEeI1bKOdUGuIxc7AYYlNQ8mXzks0cZ6pJUDabFNA`,
-        },
-      };
-      axios
-        .post("https://examen.avirato.com/client/post", this.form, config)
-        .then((result) => {
-          alert(result);
-        });
-    },
-    onReset(event) {
-      event.preventDefault();
-      this.form.correo = "";
-      this.form.nombre = "";
-      this.form.telefono = null;
-      this.form.fechaNacimiento = "";
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
+      alert(JSON.stringify(this.form));
     },
   },
 };
 </script>
-
-<style scoped></style>

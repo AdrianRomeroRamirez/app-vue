@@ -18,6 +18,7 @@
           <td>{{ user.telefono }}</td>
           <td>{{ user.correo }}</td>
           <td>{{ user.fechaNacimiento }}</td>
+          <router-link :to="'/user/' + user.id">Go</router-link>
         </tr>
       </tbody>
     </table>

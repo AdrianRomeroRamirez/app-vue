@@ -15,6 +15,11 @@ const routes = [
     name: "Form",
     component: () => import("../views/Form.vue"),
   },
+  {
+    path: "/user/:id",
+    name: "User",
+    component: () => import("../views/User.vue"),
+  },
 ];
 
 const router = new VueRouter({
